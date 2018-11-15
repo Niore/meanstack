@@ -7,7 +7,14 @@ const config = require('../config/database');
 // model
 const User = require('../models/user');
 
-// Register
+/**
+ * @api {post} /users/register Register User
+ * @apiName Register
+ * @apiGroup User
+ *
+ * @apiSuccess {true} boolean user registred
+ * @apiError {false} boolean failed to register user
+ */
 router.post('/register', (req, res, next) => {
     let user = new User({
         name: req.body.name,
@@ -25,7 +32,14 @@ router.post('/register', (req, res, next) => {
     });
 });
 
-// Authenticate
+/**
+ * @api {post} /users/auth Auth User
+ * @apiName Auth
+ * @apiGroup User
+ *
+ * @apiSuccess {User} user authenticated user
+ * @apiError {401} HTTPCODE Unauthorized
+ */
 router.post('/auth', (req, res, next) => {
     const uname = req.body.username;
     const pw = req.body.password;
@@ -60,7 +74,13 @@ router.post('/auth', (req, res, next) => {
     });
 });
 
-// Profile
+/**
+ * @api {get} /users/profile Request User profile
+ * @apiName Profile
+ * @apiGroup User
+ *
+ * @apiSuccess {User} user Returns the profile information of the current logged in user
+ */
 router.get('/profile', passport.authenticate('jwt', {session:false}), (req, res, next) => {
     res.json({user: req.user});
 });
